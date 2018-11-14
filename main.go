@@ -33,7 +33,7 @@ func main() {
 	go r.run()
 	// webサーバ起動
 	log.Println("Webサーバを起動します。 port: ", *addr)
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(*addr, nil); err != nil {
 		log.Fatal("ListenAndeServe:", err)
 	}
 }
