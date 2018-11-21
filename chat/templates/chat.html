@@ -6,15 +6,28 @@
             ul {list-style: none;}
         </style>
     </head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style>
+      ul#messages { list-style: none; }
+      ul#messages li { margin-bottom: 2px; }
+      ul#messages li img { margin-right: 10px; }
+    </style>
     <body>
-        <ul id="messages"></ul>
-        WebSocketを使ったアプリケーション
-        <form id="chatbox">
-            {{.UserData.name}}:<br/>
-            <textarea></textarea>
-            <input type="submit" value="送信">
-            または <a href="/logout">サインアウト</a>
-        </form>
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul id="messages"></ul>
+                </div>
+            </div>
+            <form id="chatbox" role="form">
+                <div class="form-group">
+                    <label for="message">{{.UserData.name}}からメッセージを送信</label>
+                    または <a href="/logout">サインアウト</a>
+                <textarea id="message" class="form-control"></textarea>
+                </div>
+                <input type="submit" value="送信" class="btn btn-default" />
+            </form>
+        </div>
         <script
         src="https://code.jquery.com/jquery-1.12.4.min.js"
         integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
