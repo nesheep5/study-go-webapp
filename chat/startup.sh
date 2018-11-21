@@ -2,7 +2,7 @@
 go build
 echo "build OK."
 
-./setenv.sh
+source ./setenv.sh
 echo "set env OK."
 
 # app start

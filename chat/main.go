@@ -38,10 +38,14 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	var addr = flag.String("addr", ":8080", "アプリケーションのアドレス")
 	flag.Parse()
-	// gomniauthのセットアップa
+	// gomniauthのセットアップ
+	fbKey := os.Getenv("FB_KEY")
+	fbSecretKey := os.Getenv("FB_SECRET_KEY")
+	log.Println("FB_KEY: ", os.Getenv("FB_KEY"))
+	log.Println("FB_SECRET_KEY: ", fbSecretKey)
 	gomniauth.SetSecurityKey("securitykey")
 	gomniauth.WithProviders(
-		facebook.New(os.Getenv("FB_KEY"), os.Getenv("FB_SECRET_KEY"), "http://localhost:8080/auth/callback/facebook"),
+		facebook.New(fbKey, fbSecretKey, "http://localhost:8080/auth/callback/facebook"),
 		//github.New("クライアントID", "secretkey", "http://localhost:8080/auth/callback/github"),
 		//google.New("クライアントID", "secretkey", "http://localhost:8080/auth/callback/google"),
 	)
