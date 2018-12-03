@@ -5,6 +5,10 @@ setenv.sh
 *.dll
 *.so
 *.dylib
+/chat/chat
+*.jpg
+
+/chat/gin-bin
 
 # Test binary, build with `go test -c`
 *.test

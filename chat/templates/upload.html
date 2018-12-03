@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>アップロード</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div id="container">
+        <div id="page-header"></div>
+        <h1>画像のアップロード</h1>
+    </div>
+    <form action="/uploader" role="form" enctype="multipart/form-data" method="POST">
+        <input type="hidden" name="userid" value="{{.UserData.userid}}" />
+        <div id="form-group">
+            <label for="message">ファイルを選択</label>
+            <input type="file" name="avatarFile" />
+        </div>
+        <input type="submit" value="アップロード" class="btn" />
+    </form>
+</body>
+</html>

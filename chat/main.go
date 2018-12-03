@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"html/template"
+	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -35,6 +37,28 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	t.templ.Execute(w, data)
 }
 
+func uploaderHandler(w http.ResponseWriter, req *http.Request) {
+	userId := req.FormValue("userid")
+	file, header, err := req.FormFile("avatarFile")
+	if err != nil {
+		io.WriteString(w, err.Error())
+		return
+	}
+	defer file.Close()
+	data, err := ioutil.ReadAll(file)
+	if err != nil {
+		io.WriteString(w, err.Error())
+		return
+	}
+	filename := filepath.Join("avatars", userId+filepath.Ext(header.Filename))
+	err = ioutil.WriteFile(filename, data, 0777)
+	if err != nil {
+		io.WriteString(w, err.Error())
+		return
+	}
+	io.WriteString(w, "成功")
+}
+
 func main() {
 	var addr = flag.String("addr", ":8080", "アプリケーションのアドレス")
 	flag.Parse()
@@ -50,7 +74,9 @@ func main() {
 		//google.New("クライアントID", "secretkey", "http://localhost:8080/auth/callback/google"),
 	)
 	//r := newRoom(UseAuthAvatar)
-	r := newRoom(UseGravatar)
+	//r := newRoom(UseGravatar)
+	r := newRoom(UseFileSystemAvatar)
+
 	// r.tracer = trace.New(os.Stdout)
 	http.Handle("/chat", MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/login", &templateHandler{filename: "login.html"})
@@ -66,6 +92,9 @@ func main() {
 		w.WriteHeader(http.StatusTemporaryRedirect)
 	})
 	http.Handle("/room", r)
+	http.Handle("/upload", &templateHandler{filename: "upload.html"})
+	http.HandleFunc("/uploader", uploaderHandler)
+	http.Handle("/avatars/", http.StripPrefix("/avatars/", http.FileServer(http.Dir("./avatars"))))
 	// チャットルーム開始
 	go r.run()
 	// webサーバ起動
