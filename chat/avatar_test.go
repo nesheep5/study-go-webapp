@@ -18,14 +18,15 @@ func TestAuthAvatar(t *testing.T) {
 	if err != ErrNoAvatarURL {
 		t.Error("値が存在しない場合、ErrNoAvatarURLを返すべきです")
 	}
-	testUrl := "http://url-to=avatar"
+	testURL := "http://url-to-avatar"
+	testUser = &gomniauthtest.TestUser{}
 	testChatUser.User = testUser
-	testUser.On("AvatarURL").Return(testUrl, nil)
+	testUser.On("AvatarURL").Return(testURL, nil)
 	url, err = authAvatar.AvatarURL(testChatUser)
 	if err != nil {
 		t.Error("値が存在する場合、エラーを返すべきではありません")
 	} else {
-		if url != testUrl {
+		if url != testURL {
 			t.Error("返却したURLが正しくありません")
 		}
 	}

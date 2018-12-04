@@ -17,7 +17,11 @@ import (
 	"github.com/stretchr/gomniauth/providers/facebook"
 )
 
-var avatars Avatar = UseFileSystemAvatar
+var avatars Avatar = TryAvatars{
+	UseFileSystemAvatar,
+	UseAuthAvatar,
+	UseGravatar,
+}
 
 type templateHandler struct {
 	once     sync.Once
