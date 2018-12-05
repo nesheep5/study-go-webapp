@@ -18,7 +18,7 @@ func TestAuthAvatar(t *testing.T) {
 	if err != ErrNoAvatarURL {
 		t.Error("値が存在しない場合、ErrNoAvatarURLを返すべきです")
 	}
-	testURL := "http://url-to-avatar"
+	testURL := "http://url-to-favatar"
 	testUser = &gomniauthtest.TestUser{}
 	testChatUser.User = testUser
 	testUser.On("AvatarURL").Return(testURL, nil)
